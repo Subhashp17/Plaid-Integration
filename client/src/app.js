@@ -2,10 +2,11 @@ import React from "react";
 
 import { useState, useEffect } from "react";
 import { usePlaidLink } from "react-plaid-link";
+import  Balance  from "./Balance.jsx";
 
 function PlaidAuth({ publicToken }) {
   const [accounts, setAccounts] = useState();
- 
+  const [accessToken, setAccessToken] = useState();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +30,8 @@ function PlaidAuth({ publicToken }) {
 
         console.log(data.access_token);
 
+        setAccessToken(data.access_token);
+
         const auth = await fetch("http://localhost:3003/auth", {
           method: "POST",
           headers: {
@@ -40,7 +43,8 @@ function PlaidAuth({ publicToken }) {
         console.log(data2);
         setAccounts(data2.numbers.ach[0]);
         console.log("data2", data2);
-        
+
+       
         // set the access token here
       } catch (error) {
         console.error("An error occurred:", error);
@@ -52,11 +56,13 @@ function PlaidAuth({ publicToken }) {
   }, ); // add publicToken to the dependencies array
 
   return (
-    accounts && (
+    accounts &&  (
       <>
         <h2>Bank Account Details</h2>
         <p>Account Number: {accounts.account}</p>
         <p>Routing Number : {accounts.routing}</p>
+        <Balance access_token={accessToken} />
+        
       </>
     )
   );

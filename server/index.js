@@ -78,8 +78,9 @@ app.post("/auth", async function (request, response) {
 });
 
 
-/*app.post("/accounts/balance", async function (request, response) {
+app.post("/accounts/balance", async function (request, response) {
     try {
+        console.log("request3")
         const accessToken = request.body.access_token;
         const plaidRequest = {
         access_token: accessToken,
@@ -90,7 +91,7 @@ app.post("/auth", async function (request, response) {
     } catch (error) {
         response.json({ error: error });
     }
-    });*/
+    });
 
 
 
